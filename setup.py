@@ -34,7 +34,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Operating System :: OS Independent',
-        'License :: Public Domain',
+        'License :: Mozilla Public License 2.0',
     ],
     scripts=['./bin/selenium-daemon'],
     entry_points={
