@@ -1,0 +1,21 @@
+from selenium import webdriver
+import os
+import time
+import json
+
+
+if __name__ == '__main__':
+    try:
+        os.environ['MOZ_HEADLESS'] = 't'
+        driver = webdriver.Firefox()
+        with open('/tmp/selenium-daemon.url', 'w') as f:
+            f.write(driver.command_executor._url + '\n')
+            f.write(driver.session_id + '\n')
+            f.write(json.dumps(driver.capabilities))
+        print('started', driver)
+        print('w3c', driver.w3c)
+        while True:
+            time.sleep(1)
+    finally:
+        os.remove('/tmp/selenium-daemon.url')
+        driver.close()
