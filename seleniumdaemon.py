@@ -1,9 +1,9 @@
 import json
-from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
+from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.firefox.remote_connection import FirefoxRemoteConnection
 from selenium.webdriver.remote.command import Command
 
-class ReattachingRemoteWebDriver(RemoteWebDriver):
+class _ExistingSessionWebDriver(WebDriver):
 
     def __init__(self, url, session_id, remote_capabilities):
         executor = FirefoxRemoteConnection(remote_server_addr=url)
@@ -20,12 +20,12 @@ class ReattachingRemoteWebDriver(RemoteWebDriver):
         return super().execute(cmd, *args, **kwargs)
 
 
-def attach_to_driver():
+def attach():
     with open('/tmp/selenium-daemon.url') as f:
         url, session_id, json_caps = f.read().strip().split('\n')
     remote_capabilities = json.loads(json_caps)
     print('attaching to', url, session_id)
-    d2 = ReattachingRemoteWebDriver(
+    d2 = _ExistingSessionWebDriver(
         url=url,
         session_id=session_id,
         remote_capabilities=remote_capabilities,
